@@ -1,3 +1,7 @@
+
+; A SIMPLE ROT-X ENCRYPTION & DECRYPTION TOOL
+
+
 .MODEL SMALL
 
 
@@ -15,7 +19,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-    MAKE_NEW_FILE PROC NEAR
+    MAKE_NEW_FILE PROC NEAR ;MAKE A TEXT FILE TO STORE OUTPUT
         MOV AH,3CH
         LEA DX,FNAME
         MOV CX,00H
@@ -24,7 +28,7 @@
         RET
     MAKE_NEW_FILE ENDP
                 
-    OPEN_FILE PROC NEAR
+    OPEN_FILE PROC NEAR  ;OPEN OUTPUT FILE TO BE ABLE TO WRITE TO IT
         MOV AH,3DH
         LEA DX,FNAME
         MOV AL,2
@@ -33,14 +37,14 @@
         RET
     OPEN_FILE ENDP
         
-    CLOSE_FILE PROC NEAR
+    CLOSE_FILE PROC NEAR ;CLOSE OUTPUT FILE AFTER PROCESSING
         MOV AH,3EH
         MOV BX,FHANDLE
         INT 21H
         RET
     CLOSE_FILE ENDP
     
-    GET_KEY PROC NEAR
+    GET_KEY PROC NEAR  ;GET KEY FOR ROT-X
         mov dl, 10  
         mov bl, 0
         GETNUM:
@@ -61,7 +65,7 @@
         RET
     GET_KEY ENDP
     
-    DROT PROC NEAR
+    DROT PROC NEAR ;DECRYPT
         CMP AL,65
         JL NOTCHARACTER
         CMP AL,122
@@ -69,26 +73,26 @@
         CMP AL,90
         JG LOWER
         JMP UPPER
-        UPPER:
+        UPPER: ;DONE
         SUB AL,KEY
         CMP AL,65
         JL ADDALPHA
         RET
-        LOWER:
+        LOWER: ;DONE
         CMP AL,97
         JL NOTCHARACTER
         SUB AL,KEY
         CMP AL,97
         JL ADDALPHA
         RET
-        ADDALPHA:
+        ADDALPHA: ;SO CALLED ROTATE TO FIRST ALPHABETICAL LETTER
         ADD AL,26
         RET
         NOTCHARACTER:
         RET
     DROT ENDP
     
-    EROT PROC NEAR
+    EROT PROC NEAR ;ENCRYPT
         CMP AL,65
         JL NOTCHAR
         CMP AL,122
@@ -96,26 +100,26 @@
         CMP AL,90
         JG LOWERCASE
         JMP UPPERCASE
-        UPPERCASE:
+        UPPERCASE: ;DONE
         ADD AL,KEY
         CMP AL,90
         JG SUBALPHA
         RET
-        LOWERCASE:
+        LOWERCASE: ;WORK UNDER PROGRESS
         CMP AL,97
         JL NOTCHAR
         ADD AL,KEY
         CMP AL,122
         JG SUBALPHA
         RET
-        SUBALPHA:
+        SUBALPHA: ;SO CALLED ROTATE TO FIRST ALPHABETICAL LETTER
         SUB AL,26
         RET
         NOTCHAR:
         RET
     EROT ENDP
     
-    ENCRYPT_OR_DECRYPT PROC NEAR
+    ENCRYPT_OR_DECRYPT PROC NEAR ;CHOSE DECRYPT OR ENCRYPT BASED UPON USER INPUT
         CMP OP,'D'
         JE DECRYPT
         CMP OP,'d'
@@ -131,7 +135,7 @@
         RET
     ENCRYPT_OR_DECRYPT ENDP
     
-    SAVECHAR PROC NEAR
+    SAVECHAR PROC NEAR  ;SAVE PROCESSED CHAR TO A BUFFER THEN LOAD ITS ADDRESS TO DX
         MOV BUFFER,AL
         MOV AH,40H
         MOV BX,FHANDLE
@@ -140,7 +144,7 @@
         RET
     SAVECHAR ENDP
         
-    INPUT_TO_FILE PROC NEAR
+    OUTPUT_TO_FILE PROC NEAR ;WRITE BUFFER TO OUTPUT FILE
         MOV CX,1H
         AGAIN:
         MOV AH,01H
@@ -152,32 +156,32 @@
         EXIT:
         CALL CLOSE_FILE
         RET
-    INPUT_TO_FILE ENDP
+    OUTPUT_TO_FILE ENDP
     
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
     MAIN PROC FAR
         .STARTUP
         
-        MOV AH,09H
+        MOV AH,09H ;DISPLAY FIRST MESSAGE (DECRYPT OR ENCRYPT)
         LEA DX,MSG1
         INT 21H
         
-        MOV AH,01H
+        MOV AH,01H ;ANSWER TO FIRST MESSAGE (DECRYPT OR ENCRYPT)
         INT 21H
         MOV OP,AL
         
-        MOV AH,02H
+        MOV AH,02H ;DISPLAY NEW LINE
         MOV DL,0AH
         INT 21H
         
-        MOV AH,09H
+        MOV AH,09H ;DISPLAY SECOND MESSAGE (KEY)
         LEA DX,MSG2
         INT 21H
         
         CALL GET_KEY 
         CALL MAKE_NEW_FILE
-        CALL INPUT_TO_FILE
+        CALL OUTPUT_TO_FILE
         
         
         .EXIT
