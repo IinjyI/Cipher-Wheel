@@ -40,6 +40,27 @@
         RET
     CLOSE_FILE ENDP
     
+    GET_KEY PROC NEAR
+        mov dl, 10  
+        mov bl, 0
+        GETNUM:
+        MOV AH,01H
+        INT 21H
+        CMP AL, 13   ; Check if user pressed ENTER KEY
+        JE GOTKEY 
+        MOV AH,0H  
+        SUB AL,30H   ; ASCII to DECIMAL
+        MOV CL,AL
+        MOV AL,BL   ; Store the previous value in AL
+        MUL DL       ; multiply the previous value with 10
+        ADD AL,CL   ; previous value + new value ( after previous value is multiplyed with 10 )
+        mov BL, AL
+        jmp GETNUM    
+        GOTKEY:
+        MOV KEY,BL
+        RET
+    GET_KEY ENDP
+    
     DROT PROC NEAR
         CMP AL,65
         JL NOTCHARACTER
@@ -154,10 +175,7 @@
         LEA DX,MSG2
         INT 21H
         
-        MOV AH,01H
-        INT 21H
-        SUB AL,30H
-        MOV KEY,AL
+        CALL GET_KEY
         
         MOV AH,02H
         MOV DL,0AH
