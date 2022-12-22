@@ -1,2 +1,2 @@
 # Assemble-ROT
-Implementing ROT encryption algorithm with keys (1-9)
+Implementing ROT encryption algorithm with any key
