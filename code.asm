@@ -175,12 +175,7 @@
         LEA DX,MSG2
         INT 21H
         
-        CALL GET_KEY
-        
-        MOV AH,02H
-        MOV DL,0AH
-        INT 21H
-        
+        CALL GET_KEY 
         CALL MAKE_NEW_FILE
         CALL INPUT_TO_FILE
         
@@ -188,5 +183,3 @@
         .EXIT
     MAIN ENDP
 END MAIN
-
-
