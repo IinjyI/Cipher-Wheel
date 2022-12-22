@@ -7,7 +7,7 @@
     FHANDLE DW ?
     BUFFER DB ?
     MSG1 DB 'TYPE E FOR ENCRYPTING AND D FOR DECRYPTING $'
-    MSG2 DB 'ENTER KEY (1-9) $'
+    MSG2 DB 'ENTER KEY (1-25) $'
     KEY DB ?
     OP DB ?
     
