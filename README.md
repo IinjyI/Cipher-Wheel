@@ -17,7 +17,8 @@ https://user-images.githubusercontent.com/90464702/209356845-058f39dd-39ed-4f06-
     + Press `D` then enter a key, press enter and start typing the text to decrypt.
   - `Start processing`:
     + Embed `@` to the end of your text so that the program can start text processing.
-
+  - Note:
+    + You will find the processed text in output.txt file
 
 
 #### [More about cipher wheel](https://en.wikipedia.org/wiki/Cipher_disk)
