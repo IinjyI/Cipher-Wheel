@@ -11,12 +11,12 @@ https://user-images.githubusercontent.com/90464702/209356845-058f39dd-39ed-4f06-
 
 - ### Instruction manual:
   - `Encrypt`:
-    + Press `E` then enter shift key, press enter and start typing the text to encrypt.
+    + Press `E` then enter a key, press enter and start typing the text to encrypt.
     + Text has to be ALL UPPERCASE.
   - `Decrypt`:
-    + Press `D` then enter shift key, press enter and start typing the text to decrypt.
+    + Press `D` then enter a key, press enter and start typing the text to decrypt.
   - `Start processing`:
-    + Embed `@` to your text so that the program can start text processing.
+    + Embed `@` to the end of your text so that the program can start text processing.
 
 
 
