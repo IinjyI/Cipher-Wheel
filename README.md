@@ -1,6 +1,6 @@
 # Cipher-Wheel
 
-### Encrypting / Decrypting ****`ROT cipher`**** in Assembly language with different keys
+### Encrypting / Decrypting ****`ROT cipher`**** in Assembly language using a specified key
 
 - ### Demo:
 
